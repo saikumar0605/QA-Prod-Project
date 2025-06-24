@@ -107,7 +107,8 @@ def ask_question(request):
                 qdrant_client = QdrantClient(
                     url=qdrant_url,
                     api_key=qdrant_api_key,
-                    prefer_grpc=True
+                    prefer_grpc=True,
+                    check_compatibility=False
                 )
                 
                 vector_store = Qdrant(
