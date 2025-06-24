@@ -69,7 +69,7 @@ def upload_pdf(request):
                 print("QDRANT_API_KEY:", qdrant_api_key)
                 try:
                     vector_search = Qdrant.from_documents(
-                        texts, embeddings, url=qdrant_url, prefer_grpc=True, api_key=qdrant_api_key, collection_name="sample_transtest"
+                        texts, embeddings, url=qdrant_url, prefer_grpc=False, api_key=qdrant_api_key, collection_name="sample_transtest"
                     )
                     print("Qdrant vector_search object:", vector_search)
                     # Only set session if vector_search is valid
@@ -115,7 +115,7 @@ def ask_question(request):
                 qdrant_client = QdrantClient(
                     url=qdrant_url,
                     api_key=qdrant_api_key,
-                    prefer_grpc=True,
+                    prefer_grpc=False,
                     check_compatibility=False
                 )
                 
