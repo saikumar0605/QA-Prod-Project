@@ -35,6 +35,8 @@ MANIFEST
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+./newenv
+newenv
 
 # Unit test / coverage reports
 htmlcov/
@@ -192,3 +194,4 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+staticfiles/
