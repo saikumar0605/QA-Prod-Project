@@ -65,15 +65,23 @@ def upload_pdf(request):
                 # Store embeddings in Qdrant
                 qdrant_api_key = os.getenv('QDRANT_API_KEY')
                 qdrant_url = os.getenv('QDRANT_URL')
-                vector_search = Qdrant.from_documents(
-                    texts, embeddings, url=qdrant_url, prefer_grpc=True, api_key=qdrant_api_key, collection_name="sample_transtest"
-                )
-                print("completed_vector_search")
-
-                # Store only necessary data in session
-                request.session['qdrant_collection'] = "sample_transtest"  # collection name
-                request.session['qdrant_url'] = qdrant_url  # URL
-                request.session.modified = True
+                print("QDRANT_URL:", qdrant_url)
+                print("QDRANT_API_KEY:", qdrant_api_key)
+                try:
+                    vector_search = Qdrant.from_documents(
+                        texts, embeddings, url=qdrant_url, prefer_grpc=True, api_key=qdrant_api_key, collection_name="sample_transtest"
+                    )
+                    print("Qdrant vector_search object:", vector_search)
+                    # Only set session if vector_search is valid
+                    if vector_search:
+                        request.session['qdrant_collection'] = "sample_transtest"  # collection name
+                        request.session['qdrant_url'] = qdrant_url  # URL
+                        request.session.modified = True
+                    else:
+                        print("Qdrant vector_search is None or invalid!")
+                except Exception as e:
+                    print("Qdrant storage error:", e)
+                    return render(request, 'upload.html', {"form": form, "error": str(e)})
 
                 return redirect('ask_question')
 
